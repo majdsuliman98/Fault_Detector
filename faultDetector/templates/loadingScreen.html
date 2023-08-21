@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid vh-100 align-item-center">
+       Loading...
+    </div>
+
+
+    <script>
+        // Redirect back to the original page after a delay
+        setTimeout(function() {
+            window.location.href = "{% url 'see_reports' %}";
+        }, 3000);  // Adjust the delay time as needed (in milliseconds)
+    </script>
+{% endblock content %}

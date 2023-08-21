@@ -1,0 +1,22 @@
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-content:center;
+    
+
+}
+
+.form-control-file {
+    display: none;
+}
+
+header {
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+

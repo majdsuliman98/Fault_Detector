@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'updateDataset.css' %}"/>
+  <header>
+    <h1>Upload Datasets</h1>
+  </header>
+  
+  <div class="container-fluid p-2">
+    <div class="column justify-content-center">
+      <form action="{% url 'update_dataset' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="dropzone"
+            id="my-dropzone">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="fileName">Dataset Name</label>
+          <input type="text"
+                 class="form-control"
+                 id="fileNamep"
+                 name="fileName"
+                 placeholder="Enter a name"
+                 required/>
+        </div>
+        <div class="fallback">
+          <input type="file" name="file" class="form-control-file" id="fileInput"/>
+        </div>
+      </form>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+      <button type="submit" class="btn btn-primary" onClick="submitForm()">Submit</button>
+    </div>
+  </div>
+  <script>
+    var myDropzone;
+    Dropzone.options.myDropzone = {
+      dictDefaultMessage: "Drop your files here or click to upload",
+      maxFiles: 1, // Limit drop to one file
+      autoProcessQueue: false,
+      init: function(){
+        myDropzone = this;
+        this.on("completequeue", function() {
+          document.getElementById("my-dropzone").submit();
+        });
+      }
+    };
+
+
+    function submitForm() {
+      var datasetNameInput = document.getElementById("fileNamep");
+      var dropzoneFiles = myDropzone.getAcceptedFiles();
+
+      if (dropzoneFiles.length == 0) {
+        // no files were uploaded to dropzone
+        myDropzone.element.classList.add("border-danger");
+        alert("Add at least one folder")
+        return;
+      }
+      else {
+        myDropzone.element.classList.remove("border-danger");
+      }
+      
+      if (datasetNameInput.value.trim() == "") {
+        // dataset name input field is empty
+        datasetNameInput.classList.add("border-danger");
+        alert("Please fill in the textField")
+        return;
+      }
+      else {
+        datasetNameInput.classList.remove("border-danger");
+      }
+
+      myDropzone.processQueue();
+    }
+  </script>
+{% endblock content %}
